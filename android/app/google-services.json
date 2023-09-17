@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "850040889430",
+    "project_id": "shaghaf-52948",
+    "storage_bucket": "shaghaf-52948.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850040889430:android:bbba95f5e140a9a88a5bf7",
+        "android_client_info": {
+          "package_name": "com.example.shaghaf_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOwnlNYIVmgTzAtkZ1w1PX2tGStyuvXDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850040889430:android:ead8e526f601c6638a5bf7",
+        "android_client_info": {
+          "package_name": "com.mycompany.shaghaf"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOwnlNYIVmgTzAtkZ1w1PX2tGStyuvXDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
