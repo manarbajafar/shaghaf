@@ -46,12 +46,18 @@ class Login extends StatelessWidget {
                 CustomTextFormField(
                   hintText: "البريد الإلكتروني",
                   controller: controller.email,
-                  validator: (value) {if (value == null) {
+                  ispasswordType: false,
+                  hasIcon: false,
+                  validator: (value) {
+                    if (value == null) {
                       print("the field is empty");
-                    }},
+                    }
+                  },
                 ),
                 CustomTextFormField(
                   hintText: "كلمة المرور",
+                  hasIcon: false,
+                  ispasswordType: true,
                   controller: controller.password,
                   validator: (value) {
                     if (value == null) {

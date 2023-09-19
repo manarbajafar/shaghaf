@@ -47,14 +47,20 @@ class Signup extends StatelessWidget {
                   hintText: "اسم المستخدم",
                   controller: controller.name,
                   validator: (value) {},
+                  ispasswordType: false,
+                  hasIcon: false,
                 ),
                 CustomTextFormField(
                   hintText: "البريد الإلكتروني",
                   controller: controller.email,
                   validator: (value) {},
+                  ispasswordType: false,
+                  hasIcon: false,
                 ),
                 CustomTextFormField(
                   hintText: "كلمة المرور",
+                  ispasswordType: true,
+                  hasIcon: false,
                   controller: controller.password,
                   validator: (value) {
                     if (value == null) {
