@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final String hintText;
+  final String? hintText;
   final dynamic validator; // or final void Function()? FunctionName;
-  final dynamic controller;
-
+  final dynamic? controller;
+  final String? initialValue;
   final bool hasIcon;
   final bool ispasswordType;
 
   const CustomTextFormField(
       {super.key,
-      required this.hintText,
+      this.initialValue,
+      this.hintText,
       required this.validator,
-      required this.controller,
+      this.controller,
       required this.hasIcon,
       required this.ispasswordType});
 
@@ -30,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
         controller: controller,
         validator: validator,
         obscureText: ispasswordType,
+        initialValue: initialValue,
 
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(

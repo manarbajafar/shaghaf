@@ -34,11 +34,13 @@ class MyApp extends StatelessWidget {
         backgroundColor: AppColor.backgroundColor,
         fontFamily: 'Tajawal',
         textTheme: const TextTheme(
+          //for pages title
           titleMedium: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: AppColor.primaryColor,
           ),
+          //for welcomeing words
           titleLarge: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w900,
@@ -54,6 +56,10 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Poppins',
             fontSize: 16,
             fontWeight: FontWeight.bold,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 15,
+            color: AppColor.primaryColor,
           ),
         ),
       ),

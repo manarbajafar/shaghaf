@@ -24,8 +24,7 @@ class SignUpController extends GetxController {
 
 class SignUpFailure {
   final String message;
-  const SignUpFailure(
-      [this.message = 'الرجاء تعبئة الخانات قبل الضغط على زر إنشاء الحساب']);
+  const SignUpFailure([this.message = 'حدث خطأ غير معروف']);
 
   factory SignUpFailure.code(String code) {
     switch (code) {

@@ -25,9 +25,7 @@ class Home extends StatelessWidget {
 
   List<String> types = ['الكل', 'عن بعد', 'حضوري'];
 
-  logout() {
-    FirebaseAuth.instance.signOut();
-  }
+
 
   TextEditingController text = TextEditingController();
 
@@ -248,7 +246,7 @@ class Home extends StatelessWidget {
           SizedBox(
             height: 220,
             child: ListView.builder(
-                // scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal,
                 itemCount: courses.length,
                 itemBuilder: (context, i) {
                   return CourseCard(

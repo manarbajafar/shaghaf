@@ -104,4 +104,13 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout() async => await _auth.signOut();
+
+  Future<void> getUserData() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .listen((event) {});
+  }
 }

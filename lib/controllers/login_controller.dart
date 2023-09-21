@@ -27,8 +27,7 @@ class LoginController extends GetxController {
 
 class LogInFailure {
   final String message;
-  const LogInFailure(
-      [this.message = 'الرجاء تعبئة الخانات قبل الضغط على زر تسجيل الدخول']);
+  const LogInFailure([this.message = 'حدث خطأ غير معروف']);
 
   factory LogInFailure.code(String code) {
     switch (code) {

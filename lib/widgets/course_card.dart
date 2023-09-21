@@ -28,7 +28,7 @@ class CourseCard extends StatelessWidget {
         children: [
           SizedBox(
             height: 100,
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width - 80,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(16),
@@ -58,7 +58,7 @@ class CourseCard extends StatelessWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -74,6 +74,9 @@ class CourseCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
+              ),
+              SizedBox(
+                width: 30,
               ),
               Container(
                 height: 35,
