@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shaghaf_app/widgets/course_card.dart';
 import '../constatnt/app_colors.dart';
 import '../controllers/home_controller.dart';
-import '../controllers/homepage_controller.dart';
 import '../widgets/custom_textForm.dart';
 
 class Home extends StatelessWidget {
@@ -24,8 +22,6 @@ class Home extends StatelessWidget {
   ];
 
   List<String> types = ['الكل', 'عن بعد', 'حضوري'];
-
-
 
   TextEditingController text = TextEditingController();
 

@@ -104,7 +104,7 @@ class Profile extends StatelessWidget {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      Get.to(EditProfile());
+                      Get.to(() => EditProfile());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -7,6 +7,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? initialValue;
   final bool hasIcon;
   final bool ispasswordType;
+  final bool isEmailOrPasswordForUpdate;
 
   const CustomTextFormField(
       {super.key,
@@ -14,13 +15,14 @@ class CustomTextFormField extends StatelessWidget {
       this.hintText,
       required this.validator,
       this.controller,
+      this.isEmailOrPasswordForUpdate = false,
       required this.hasIcon,
       required this.ispasswordType});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.only(top: 10),
       height: hasIcon ? 45 : 55,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -32,7 +34,7 @@ class CustomTextFormField extends StatelessWidget {
         validator: validator,
         obscureText: ispasswordType,
         initialValue: initialValue,
-
+        enabled: !isEmailOrPasswordForUpdate ? true : false,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: hintText,

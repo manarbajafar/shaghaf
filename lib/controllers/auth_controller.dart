@@ -71,7 +71,6 @@ class AuthController extends GetxController {
           'uid': currentUser?.uid,
           'email': email,
           'name': name,
-          'password': password
         });
       });
 

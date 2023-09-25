@@ -31,18 +31,27 @@ class ProfileController extends GetxController {
   }
 
   //update user information
-  updateUserData(User user) async {
-    await _user_controller.updateUserRecord(user);
-    //reAuthenticate
+  updateUserData(UserModel user, String oldPassword) async {
+    await _user_controller.updateUserRecord(user, oldPassword);
   }
 
+  //update user password
+  updateUserPasswordData(String newPassword, String oldPassword) async {
+    await _user_controller.updateUserPassword(newPassword, oldPassword);
+  }
+
+  //update user email
+  updateUseremailData(String newEmail, String password) async {
+    await _user_controller.updateUserEmail(newEmail, password);
+  }
+
+/////// profile page
   updateUserName() {
     userName = _auth_controller.firebaseUser.value
         ?.displayName; //I have to change the name field in db to displayName
     update();
   }
 
-/////// profile page
   completePayment() {
     //i will implement it later:)
     update();
