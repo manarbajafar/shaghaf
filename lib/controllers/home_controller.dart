@@ -1,19 +1,21 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shaghaf_app/models/course_model.dart';
+
+import 'auth_controller.dart';
 
 class HomeController extends GetxController {
+  final _auth_controller = Get.put(AuthController());
   var selectedValue_levels = 'الكل'.obs;
   var selectedValue_categories = 'الكل'.obs;
   var selectedValue_types = 'الكل'.obs;
-
-
-
-  @override
-  void onInit() {
-     getCourses();
-    super.onInit();
-  }
+  final _db = FirebaseFirestore.instance;
+  static List<CourseModel> courses = [];
+  static bool on_home = true;
 
   List categories = [
     {'iconeName': Icons.laptop, 'title': 'الحاسب الآلي'},
@@ -34,10 +36,45 @@ class HomeController extends GetxController {
     selectedValue_types.value = value;
   }
 
-  getCourses() async {
-    var url = Uri.parse(
-        "https://run.mocky.io/v3/d5293e75-45b3-42c5-8522-e5ec91c24711");
-    var response = await http.get(url);
-    print(response.body);
+  Future getCourses() async {
+    if (on_home) {
+      courses
+          .clear(); //So that the elements are not repeated whenever we return to the homepage
+      var url = Uri.parse(
+          "https://run.mocky.io/v3/6c6f00a9-5bca-4186-b73d-b5b27773b059");
+      var response = await http.get(url);
+      var jsonData = jsonDecode(response.body);
+
+      //make it a List of maps
+      for (var eachCourse in jsonData) {
+        final course = CourseModel(
+          id: eachCourse['id'],
+          title: eachCourse['title'],
+          presenter: eachCourse['presenter'],
+          category: eachCourse['category'],
+          imageUrl: eachCourse['imageUrl'],
+          level: eachCourse['level'],
+          place: eachCourse['place'],
+          price: eachCourse['price'],
+        );
+        courses.add(course);
+      }
+      print('courses.length: ${courses.length}');
+      update();
+    }
+  }
+
+  registerInCourse(int courseId) async {
+    await _db
+        .collection('users')
+        .doc(_auth_controller.firebaseUser.value!.uid)
+        .set({
+      "registered_courses": FieldValue.arrayUnion([
+        {
+          'courseId': courseId,
+          'status': false,
+        }
+      ])
+    }, SetOptions(merge: true));
   }
 }

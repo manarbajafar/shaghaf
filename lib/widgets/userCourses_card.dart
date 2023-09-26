@@ -84,7 +84,7 @@ class UserCoursesCard extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.only(left: 5),
             child: !isFavoritepage
                 ? !status
                     ? Column(
@@ -92,10 +92,10 @@ class UserCoursesCard extends StatelessWidget {
                           Text(
                             'غير مكتمل',
                             style: TextStyle(
-                                fontSize: 16, color: AppColor.ErrorColor),
+                                fontSize: 15, color: AppColor.ErrorColor),
                           ),
                           Container(
-                            height: 25,
+                            height: 22,
                             child: MaterialButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
@@ -104,7 +104,7 @@ class UserCoursesCard extends StatelessWidget {
                               child: const Text(
                                 'إتمام الدفع',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                   color: AppColor.white,
                                 ),
@@ -115,7 +115,7 @@ class UserCoursesCard extends StatelessWidget {
                       )
                     : const Text(
                         'مكتمل',
-                        style: TextStyle(fontSize: 16, color: Colors.green),
+                        style: TextStyle(fontSize: 15, color: Colors.green),
                       )
                 : Icon(
                     favoriteIcon,

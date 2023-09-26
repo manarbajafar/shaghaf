@@ -5,7 +5,7 @@ import 'package:shaghaf_app/screens/update_email.dart';
 import 'package:shaghaf_app/screens/update_password.dart';
 import '../constatnt/app_colors.dart';
 import '../controllers/profile_controller.dart';
-import '../models/user.dart';
+import '../models/user_model.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textForm.dart';
 import 'homepage.dart';
@@ -111,7 +111,7 @@ class EditProfile extends StatelessWidget {
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.edit,
                                 color: AppColor.TertiaryColor,

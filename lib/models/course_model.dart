@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CourseModel {
-  String? id;
+  int? id;
   String? title;
   String? presenter;
   String? place;
@@ -10,6 +10,7 @@ class CourseModel {
   // String? date;
   String? category;
   String? imageUrl;
+  bool? status;
 
   CourseModel(
       {this.id,
@@ -20,8 +21,8 @@ class CourseModel {
       this.level,
       // this.date,
       this.category,
-      this.imageUrl});
-
+      this.imageUrl,
+      this.status});
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
     return CourseModel(

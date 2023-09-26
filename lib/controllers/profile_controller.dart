@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/user.dart';
+import '../models/course_model.dart';
+import '../models/user_model.dart';
 import 'auth_controller.dart';
 import 'user_controller.dart';
 
@@ -11,13 +13,15 @@ class ProfileController extends GetxController {
   //get email of the user who is currently logged in (from AuthController) and pass to user controller to fetch user record
   final _auth_controller = Get.put(AuthController());
   final _user_controller = Get.put(UserController());
-
+  final _db = FirebaseFirestore.instance;
   late String? userName;
-
+  List<Map> registeredcoursesIDsandStauts = [];
+  List<CourseModel> registeredcourses = [];
   @override
   void onReady() {
     super.onReady();
     userName = _auth_controller.firebaseUser.value?.displayName;
+    getRegisterdCourses();
   }
 
   //fetch user information from database
@@ -26,7 +30,7 @@ class ProfileController extends GetxController {
     if (email != null) {
       return _user_controller.getUserDetails(email);
     } else {
-      Get.snackbar('خطأ', '...'); //
+      Get.snackbar('خطأ', '.'); //
     }
   }
 
@@ -46,6 +50,16 @@ class ProfileController extends GetxController {
   }
 
 /////// profile page
+
+//get user registerd courses
+// the plan :
+// 1- Get the registered_courses (array of maps) from user collections
+// 2- I have a list of all courses, store what is equal to the course id in registered_courses in  registered_courses list to display them in profile
+  Future getRegisterdCourses() async {
+    UserModel userData = await getUserData() as UserModel;
+    registeredcoursesIDsandStauts = userData.registered_courses!;
+  }
+
   updateUserName() {
     userName = _auth_controller.firebaseUser.value
         ?.displayName; //I have to change the name field in db to displayName

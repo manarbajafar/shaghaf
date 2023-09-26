@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
 
-import '../models/user.dart';
+import '../models/user_model.dart';
 import 'auth_controller.dart';
 
 // this class to perform database user opreations
@@ -24,7 +24,7 @@ class UserController extends GetxController {
     return userData;
   }
 
-  /// - update user data
+  /// - update user data (This method only succeeded in updating the name)
   Future<void> updateUserRecord(UserModel user, String oldPassword) async {
     // Prompt the user to enter their email and password
     //reference: https://firebase.flutter.dev/docs/auth/usage/
@@ -53,7 +53,7 @@ class UserController extends GetxController {
   /// update user password
   Future<void> updateUserPassword(
       String newPassword, String oldPassword) async {
-    var current_user = FirebaseAuth.instance.currentUser;
+      var current_user = FirebaseAuth.instance.currentUser;
     //// Create a credential
     AuthCredential credential = EmailAuthProvider.credential(
         email: current_user!.email!, password: oldPassword);

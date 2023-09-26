@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shaghaf_app/screens/courses.dart';
 import 'package:shaghaf_app/widgets/course_card.dart';
 import '../constatnt/app_colors.dart';
 import '../controllers/home_controller.dart';
@@ -7,6 +8,7 @@ import '../widgets/custom_textForm.dart';
 
 class Home extends StatelessWidget {
   late String pageTitle;
+
   Home({super.key, required this.pageTitle});
 
 //---------------------------------------------------------
@@ -25,20 +27,6 @@ class Home extends StatelessWidget {
 
   TextEditingController text = TextEditingController();
 
-  List courses = [
-    {
-      'title': 'مقدمة في الذكاء الاصطناعي',
-      'presenter': 'أ. عمر أحمد',
-      'price': 100,
-      'imageUrl': 'images/intro.jpg'
-    },
-    {
-      'title': 'تحليل البيانات باستخدام الاكسل',
-      'presenter': 'أ. محمد سعيد',
-      'price': 100,
-      'imageUrl': 'images/intro.jpg'
-    },
-  ];
 //---------------------------------------------------------
 
   final HomeController controller = Get.put(HomeController());
@@ -51,7 +39,7 @@ class Home extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 20),
             child: Text(
               pageTitle,
               style: Theme.of(context).textTheme.titleMedium,
@@ -83,7 +71,7 @@ class Home extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 8,
+            height: 15,
           ),
           Obx(
             () => Row(
@@ -189,7 +177,7 @@ class Home extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 8,
+            height: 20,
           ),
           const Text(
             'الفئات',
@@ -208,24 +196,34 @@ class Home extends StatelessWidget {
                 return Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 10),
                   margin: EdgeInsets.only(left: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: AppColor.white,
-                            borderRadius: BorderRadius.circular(100)),
-                        padding: const EdgeInsets.all(15),
-                        child: Icon(
-                          controller.categories[i]['iconeName'],
-                          size: 40,
-                          color: AppColor.primaryColor,
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(() => Courses(
+                            categoryName: controller.categories[i]['title'],
+                          ));
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(100)),
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(
+                            controller.categories[i]['iconeName'],
+                            size: 40,
+                            color: AppColor.primaryColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        controller.categories[i]['title'],
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            controller.categories[i]['title'],
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -241,16 +239,31 @@ class Home extends StatelessWidget {
           ),
           SizedBox(
             height: 220,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: courses.length,
-                itemBuilder: (context, i) {
-                  return CourseCard(
-                      title: courses[i]['title'],
-                      presenter: courses[i]['presenter'],
-                      price: courses[i]['price'],
-                      imageUrl: courses[i]['imageUrl']);
-                }),
+            child: FutureBuilder(
+              future: controller.getCourses(),
+              builder: (context, snapshot) {
+                // is it done loading? then show courses data
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: HomeController.courses.length,
+                      itemBuilder: (context, i) {
+                        return CourseCard(
+                          title: HomeController.courses[i].title,
+                          presenter: HomeController.courses[i].presenter,
+                          price: HomeController.courses[i].price,
+                          imageUrl: HomeController.courses[i].imageUrl,
+                          onPressed: (() => controller
+                              .registerInCourse(HomeController.courses[i].id!)),
+                        );
+                      });
+                }
+                //if it is still loading, show loading circle
+                else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
         ],
       ),

@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           bodySmall: TextStyle(
             color: AppColor.grey,
             fontFamily: 'Poppins',
-            fontSize: 14,
+            fontSize: 15,
           ),
           titleSmall: TextStyle(
             decoration: TextDecoration.underline,
@@ -58,8 +58,12 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           bodyLarge: TextStyle(
-            fontSize: 15,
+            fontSize: 14,
             color: AppColor.primaryColor,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 15,
+            color: AppColor.black,
           ),
         ),
       ),

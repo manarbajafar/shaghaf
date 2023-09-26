@@ -6,7 +6,14 @@ class UserModel {
   final String email;
   final String? password;
 
-  UserModel({this.uid, required this.name, required this.email, this.password});
+  List<Map>? registered_courses = [];
+
+  UserModel(
+      {this.uid,
+      required this.name,
+      required this.email,
+      this.registered_courses,
+      this.password});
 
   // User.fromJson(Map<String, dynamic> json) {
   //   name = json['name'];
@@ -19,6 +26,7 @@ class UserModel {
       'name': name,
       'email': email,
       'password': password,
+      'registered_courses': registered_courses
     };
   }
 
@@ -30,6 +38,7 @@ class UserModel {
         uid: document.id,
         name: data['name'],
         email: data['email'],
+        registered_courses: data['registered_courses'],
         password: data['password']);
   }
 }

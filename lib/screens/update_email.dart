@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:shaghaf_app/screens/profile.dart';
 import '../constatnt/app_colors.dart';
 import '../controllers/profile_controller.dart';
-import '../models/user.dart';
+import '../models/user_model.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textForm.dart';
 import 'homepage.dart';

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
 
+import '../controllers/profile_controller.dart';
 import '../widgets/userCourses_card.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatelessWidget {
   late String pageTitle;
+  final controller = Get.put(ProfileController());
 
   // This section is temporary until I finish the design and move to backend :)
   String userName = 'Manar Bajafar';

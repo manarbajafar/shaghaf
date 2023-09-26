@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
 
 class CourseCard extends StatelessWidget {
-  String title;
-  String presenter;
-  int price;
-  String imageUrl;
-  // Function()? onPressed;
+  String? title;
+  String? presenter;
+  int? price;
+  String? imageUrl;
+  Future Function()? onPressed;
 
-  CourseCard({
-    super.key,
-    required this.title,
-    required this.presenter,
-    required this.price,
-    required this.imageUrl,
-  });
+  CourseCard(
+      {super.key,
+      this.title,
+      this.presenter,
+      this.price,
+      this.imageUrl,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -34,28 +34,34 @@ class CourseCard extends StatelessWidget {
                 topRight: Radius.circular(16),
                 topLeft: Radius.circular(16),
               ),
-              child: Image.asset(imageUrl, fit: BoxFit.fill),
+              child: Image.network(imageUrl!, fit: BoxFit.fill),
             ),
           ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              title!,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: Text(
-                  'تقديم',
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Text(
+                    'تقديم',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+                Text(
+                  presenter!,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-              ),
-              Text(
-                presenter,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -79,17 +85,17 @@ class CourseCard extends StatelessWidget {
                 width: 30,
               ),
               Container(
-                height: 35,
+                height: 30,
                 child: MaterialButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  onPressed: () {},
+                  onPressed: onPressed,
                   color: AppColor.primaryColor,
                   child: const Text(
                     'سجل الآن',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: AppColor.white,
                     ),
