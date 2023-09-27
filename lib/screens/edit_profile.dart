@@ -40,8 +40,7 @@ class EditProfile extends StatelessWidget {
 
                   //controllers to update values
                   final email = TextEditingController(text: userData.email);
-                  final password =
-                      TextEditingController(text: userData.password);
+
                   final name = TextEditingController(text: userData.name);
 
                   return Column(
@@ -135,11 +134,11 @@ class EditProfile extends StatelessWidget {
                         text: "حفظ التعديلات",
                         onPressed: () async {
                           final user = UserModel(
-                              uid: userData.uid,
-                              email: email.text.trim(),
-                              name: name.text.trim(),
-                              password: password.text.trim());
-                          await controller.updateUserData(user, password.text);
+                            uid: userData.uid,
+                            email: email.text.trim(),
+                            name: name.text.trim(),
+                          );
+                          await controller.updateUserData(user);
                           Get.to(() => Homepage());
                         },
                         buttonColor: AppColor.primaryColor,

@@ -10,12 +10,14 @@ class Favorite extends StatelessWidget {
     {
       'title': 'مقدمة في الذكاء الاصطناعي',
       'presenter': 'أ. عمر أحمد',
-      'imageUrl': 'images/intro.jpg'
+      'imageUrl':
+          'https://www.t2.sa/sites/default/files/styles/header_blog/public/2021-01/AI_323829966.jpeg?h=692eb44b&itok=nX7Yeyzd'
     },
     {
       'title': 'تحليل البيانات باستخدام الاكسل',
       'presenter': 'أ. محمد سعيد',
-      'imageUrl': 'images/intro.jpg'
+      'imageUrl':
+          'https://www.t2.sa/sites/default/files/styles/header_blog/public/2021-01/AI_323829966.jpeg?h=692eb44b&itok=nX7Yeyzd'
     },
   ];
 

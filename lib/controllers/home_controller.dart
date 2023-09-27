@@ -7,9 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:shaghaf_app/models/course_model.dart';
 
 import 'auth_controller.dart';
+import 'profile_controller.dart';
 
 class HomeController extends GetxController {
   final _auth_controller = Get.put(AuthController());
+  final _profile_controller = Get.put(ProfileController());
+
   var selectedValue_levels = 'الكل'.obs;
   var selectedValue_categories = 'الكل'.obs;
   var selectedValue_types = 'الكل'.obs;
@@ -36,6 +39,7 @@ class HomeController extends GetxController {
     selectedValue_types.value = value;
   }
 
+//get courses from API
   Future getCourses() async {
     if (on_home) {
       courses
@@ -45,7 +49,7 @@ class HomeController extends GetxController {
       var response = await http.get(url);
       var jsonData = jsonDecode(response.body);
 
-      //make it a List of maps
+      //make it a List of CourseModel object
       for (var eachCourse in jsonData) {
         final course = CourseModel(
           id: eachCourse['id'],
@@ -59,6 +63,7 @@ class HomeController extends GetxController {
         );
         courses.add(course);
       }
+      await _profile_controller.getRegisterdCourses();
       print('courses.length: ${courses.length}');
       update();
     }
@@ -76,5 +81,18 @@ class HomeController extends GetxController {
         }
       ])
     }, SetOptions(merge: true));
+  }
+
+  bool isCourseinUserRegisteredCourses(int courseId) {
+    print(
+        'ProfileController.registeredCourses: ${ProfileController.registeredCourses}');
+    for (var registeredCourse in ProfileController.registeredCourses) {
+      if (courseId == registeredCourse.id) {
+        update();
+        return true;
+      }
+    }
+    update();
+    return false;
   }
 }

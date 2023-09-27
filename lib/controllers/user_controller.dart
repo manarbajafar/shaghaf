@@ -25,27 +25,29 @@ class UserController extends GetxController {
   }
 
   /// - update user data (This method only succeeded in updating the name)
-  Future<void> updateUserRecord(UserModel user, String oldPassword) async {
+  Future<void> updateUserRecord(UserModel user) async {
     // Prompt the user to enter their email and password
     //reference: https://firebase.flutter.dev/docs/auth/usage/
     //other reference: https://stackoverflow.com/questions/73113046/flutter-firebase-auth-how-to-get-user-current-password
 
-    var current_user = FirebaseAuth.instance.currentUser;
+    // var current_user = FirebaseAuth.instance.currentUser;
 
-    //// Create a credential
-    AuthCredential credential =
-        EmailAuthProvider.credential(email: user.email, password: oldPassword);
+    // //// Create a credential
+    // AuthCredential credential =
+    //     EmailAuthProvider.credential(email: user.email, password: oldPassword);
 
-    print('line 37');
+    // print('line 37');
 
-    // Reauthenticate
-    await current_user!
-        .reauthenticateWithCredential(credential)
-        .then((value) async =>
-            {await _db.collection('users').doc(user.uid).update(user.toJson())})
-        .catchError((error) {
-      print(error.toString());
-    });
+    // // Reauthenticate
+    // await current_user!
+    //     .reauthenticateWithCredential(credential)
+    //     .then((value) async =>
+    //         {
+    await _db.collection('users').doc(user.uid).update(user.toJson());
+    //           })
+    //     .catchError((error) {
+    //   print(error.toString());
+    // });
 
     // print('line 41');
   }
@@ -53,7 +55,7 @@ class UserController extends GetxController {
   /// update user password
   Future<void> updateUserPassword(
       String newPassword, String oldPassword) async {
-      var current_user = FirebaseAuth.instance.currentUser;
+    var current_user = FirebaseAuth.instance.currentUser;
     //// Create a credential
     AuthCredential credential = EmailAuthProvider.credential(
         email: current_user!.email!, password: oldPassword);

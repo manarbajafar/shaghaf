@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
 
+import '../controllers/profile_controller.dart';
 import 'custom_button.dart';
 
 class UserCoursesCard extends StatelessWidget {
@@ -11,6 +13,7 @@ class UserCoursesCard extends StatelessWidget {
   bool status;
   bool isFavoritepage;
   IconData favoriteIcon;
+  Future Function()? completePaymentOnPressed;
 
   UserCoursesCard(
       {super.key,
@@ -20,7 +23,8 @@ class UserCoursesCard extends StatelessWidget {
       this.status = false,
       this.coursePresenter = '',
       this.isFavoritepage = false,
-      this.favoriteIcon = Icons.favorite});
+      this.favoriteIcon = Icons.favorite,
+      this.completePaymentOnPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class UserCoursesCard extends StatelessWidget {
                 topRight: Radius.circular(8),
                 bottomRight: Radius.circular(8),
               ),
-              child: Image.asset(courseImage, fit: BoxFit.fill),
+              child: Image.network(courseImage, fit: BoxFit.fill),
             ),
           ),
           Column(
@@ -83,45 +87,49 @@ class UserCoursesCard extends StatelessWidget {
               ]),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: !isFavoritepage
-                ? !status
-                    ? Column(
-                        children: [
-                          Text(
-                            'غير مكتمل',
-                            style: TextStyle(
-                                fontSize: 15, color: AppColor.ErrorColor),
-                          ),
-                          Container(
-                            height: 22,
-                            child: MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              onPressed: () {},
-                              color: AppColor.primaryColor,
-                              child: const Text(
-                                'إتمام الدفع',
+          GetBuilder<ProfileController>(
+              builder: (context) => Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: !isFavoritepage
+                        ? !status
+                            ? Column(
+                                children: [
+                                  Text(
+                                    'غير مكتمل',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColor.ErrorColor),
+                                  ),
+                                  Container(
+                                    height: 22,
+                                    child: MaterialButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
+                                      onPressed: completePaymentOnPressed,
+                                      color: AppColor.primaryColor,
+                                      child: const Text(
+                                        'إتمام الدفع',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColor.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const Text(
+                                'مكتمل',
                                 style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColor.white,
-                                ),
-                              ),
-                            ),
+                                    fontSize: 15, color: Colors.green),
+                              )
+                        : Icon(
+                            favoriteIcon,
+                            color: AppColor.TertiaryColor,
                           ),
-                        ],
-                      )
-                    : const Text(
-                        'مكتمل',
-                        style: TextStyle(fontSize: 15, color: Colors.green),
-                      )
-                : Icon(
-                    favoriteIcon,
-                    color: AppColor.TertiaryColor,
-                  ),
-          ),
+                  )),
         ],
       ),
     );

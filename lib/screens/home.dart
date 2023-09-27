@@ -255,6 +255,9 @@ class Home extends StatelessWidget {
                           imageUrl: HomeController.courses[i].imageUrl,
                           onPressed: (() => controller
                               .registerInCourse(HomeController.courses[i].id!)),
+                          isCourseinUserRegisteredCourses:
+                              controller.isCourseinUserRegisteredCourses(
+                                  HomeController.courses[i].id!),
                         );
                       });
                 }

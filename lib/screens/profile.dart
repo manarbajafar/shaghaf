@@ -14,21 +14,6 @@ class Profile extends StatelessWidget {
   // This section is temporary until I finish the design and move to backend :)
   String userName = 'Manar Bajafar';
 
-  List registeredcourses = [
-    {
-      'title': 'مقدمة في الذكاء الاصطناعي',
-      'price': 100,
-      'status': false,
-      'imageUrl': 'images/intro.jpg'
-    },
-    {
-      'title': 'تحليل البيانات باستخدام الاكسل',
-      'price': 100,
-      'status': true,
-      'imageUrl': 'images/intro.jpg'
-    },
-  ];
-
   logout() {
     FirebaseAuth.instance.signOut();
   }
@@ -110,7 +95,7 @@ class Profile extends StatelessWidget {
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.edit,
                           color: AppColor.grey,
@@ -146,7 +131,7 @@ class Profile extends StatelessWidget {
                             padding: const EdgeInsets.all(10.0),
                             child: Row(
                               children: [
-                                ImageIcon(
+                                const ImageIcon(
                                   AssetImage(
                                     'images/course_icon.png',
                                   ),
@@ -181,7 +166,7 @@ class Profile extends StatelessWidget {
                             padding: const EdgeInsets.all(10.0),
                             child: Row(
                               children: [
-                                ImageIcon(
+                                const ImageIcon(
                                   AssetImage(
                                     'images/certificate_icon.png',
                                   ),
@@ -209,7 +194,7 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                     child: Card(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       color: AppColor.white,
@@ -228,7 +213,7 @@ class Profile extends StatelessWidget {
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Align(
-                              alignment: AlignmentDirectional(1.00, 0.00),
+                              alignment: const AlignmentDirectional(1.00, 0.00),
                               child: Text(
                                 'حالة التسجيل',
                                 textAlign: TextAlign.end,
@@ -240,20 +225,41 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                        itemCount: registeredcourses.length,
-                        itemBuilder: (context, i) {
-                          return UserCoursesCard(
-                            coursePrice: registeredcourses[i]['price'],
-                            status: registeredcourses[i]['status'],
-                            courseTitle: registeredcourses[i]['title'],
-                            courseImage:
-                                registeredcourses[i]['imageUrl'].toString(),
-                          );
-                        }),
-                  ),
+                  FutureBuilder(
+                      future: controller.getRegisterdCourses(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) {
+                            return SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                  itemCount: ProfileController
+                                      .registeredCourses.length,
+                                  itemBuilder: (context, i) {
+                                    return UserCoursesCard(
+                                      coursePrice: ProfileController
+                                          .registeredCourses[i].price!,
+                                      status: controller
+                                              .registeredcoursesIDsandStauts[i]
+                                          ['status'],
+                                      courseTitle: ProfileController
+                                          .registeredCourses[i].title!,
+                                      courseImage: ProfileController
+                                          .registeredCourses[i].imageUrl!,
+                                      completePaymentOnPressed: (() =>
+                                          controller.completePayment(
+                                              ProfileController
+                                                  .registeredCourses[i].id!)),
+                                    );
+                                  }),
+                            );
+                          } else {
+                            return Text(snapshot.error.toString());
+                          }
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }),
                 ],
               ),
             ),

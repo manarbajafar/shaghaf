@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
 
 class CourseCard extends StatelessWidget {
+  int? id;
   String? title;
   String? presenter;
   int? price;
   String? imageUrl;
   Future Function()? onPressed;
+  bool isCourseinUserRegisteredCourses = false;
 
   CourseCard(
       {super.key,
       this.title,
+      this.id,
       this.presenter,
       this.price,
       this.imageUrl,
-      this.onPressed});
+      this.onPressed,
+      required this.isCourseinUserRegisteredCourses});
 
   @override
   Widget build(BuildContext context) {
@@ -86,21 +90,23 @@ class CourseCard extends StatelessWidget {
               ),
               Container(
                 height: 30,
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  onPressed: onPressed,
-                  color: AppColor.primaryColor,
-                  child: const Text(
-                    'سجل الآن',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.white,
-                    ),
-                  ),
-                ),
+                child: !isCourseinUserRegisteredCourses
+                    ? MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        onPressed: onPressed,
+                        color: AppColor.primaryColor,
+                        child: const Text(
+                          'سجل الآن',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.white,
+                          ),
+                        ),
+                      )
+                    : null,
               ),
             ],
           ),
