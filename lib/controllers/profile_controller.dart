@@ -82,7 +82,6 @@ class ProfileController extends GetxController {
 the plan :
 1- The status value updated to true in db
 2- updated the screen to 'مكتمل' and the button disappears
-3- updated the course card (register button disappears)
 */
   completePayment(int courseId) async {
     //1.1 get index of regidter course from db
@@ -102,8 +101,6 @@ the plan :
         }
       ])
     });
-    getRegisterdCourses(); //
+    getRegisterdCourses(); // 2 but it doesn't work yet
   }
-
-
 }

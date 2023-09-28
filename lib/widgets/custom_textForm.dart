@@ -8,8 +8,9 @@ class CustomTextFormField extends StatelessWidget {
   final bool hasIcon;
   final bool ispasswordType;
   final bool isEmailOrPasswordForUpdate;
+  Function(String)? onChanged;
 
-  const CustomTextFormField(
+  CustomTextFormField(
       {super.key,
       this.initialValue,
       this.hintText,
@@ -17,7 +18,8 @@ class CustomTextFormField extends StatelessWidget {
       this.controller,
       this.isEmailOrPasswordForUpdate = false,
       required this.hasIcon,
-      required this.ispasswordType});
+      required this.ispasswordType,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: TextFormField(
+        onChanged: onChanged,
         // onSaved: onSaved,
         controller: controller,
         validator: validator,

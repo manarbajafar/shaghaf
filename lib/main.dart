@@ -34,6 +34,10 @@ class MyApp extends StatelessWidget {
         backgroundColor: AppColor.backgroundColor,
         fontFamily: 'Tajawal',
         textTheme: const TextTheme(
+          bodyLarge: TextStyle(
+            fontSize: 14,
+            color: AppColor.primaryColor,
+          ),
           //for pages title
           titleMedium: TextStyle(
             fontSize: 18,
@@ -57,10 +61,7 @@ class MyApp extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
-          bodyLarge: TextStyle(
-            fontSize: 14,
-            color: AppColor.primaryColor,
-          ),
+
           bodyMedium: TextStyle(
             fontSize: 15,
             color: AppColor.black,

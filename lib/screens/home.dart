@@ -5,6 +5,7 @@ import 'package:shaghaf_app/widgets/course_card.dart';
 import '../constatnt/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/custom_textForm.dart';
+import 'homepage.dart';
 
 class Home extends StatelessWidget {
   late String pageTitle;
@@ -12,7 +13,7 @@ class Home extends StatelessWidget {
   Home({super.key, required this.pageTitle});
 
 //---------------------------------------------------------
-// This section is temporary until I finish the design and move to backend :)
+// This section is temporary until I finish the design and move to - filters -backend :)
   List<String> levels = ['الكل', 'مبتدئ', 'متوسط', 'متقدم'];
 
   List<String> categories = [
@@ -24,8 +25,6 @@ class Home extends StatelessWidget {
   ];
 
   List<String> types = ['الكل', 'عن بعد', 'حضوري'];
-
-  TextEditingController text = TextEditingController();
 
 //---------------------------------------------------------
 
@@ -52,7 +51,14 @@ class Home extends StatelessWidget {
                   hintText: "بحث",
                   hasIcon: true,
                   ispasswordType: false,
-                  controller: text,
+                  onChanged: (value) {
+                    //value == null || value.length == 0
+                    if (value.isEmpty)
+                      controller.isOnChangedActive.value = false;
+                    else
+                      controller.isOnChangedActive.value = true;
+                    controller.searchCoursebyTextField(value);
+                  },
                   validator: (value) {
                     if (value == null) {
                       print("the field is empty");
@@ -102,7 +108,10 @@ class Home extends StatelessWidget {
                             types.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           );
                         }).toList(),
                       ),
@@ -112,7 +121,7 @@ class Home extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: 90,
-                  height: 75,
+                  height: 67,
                   decoration: BoxDecoration(
                       color: AppColor.white,
                       borderRadius: BorderRadius.circular(16)),
@@ -134,7 +143,10 @@ class Home extends StatelessWidget {
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           );
                         }).toList(),
                       ),
@@ -166,7 +178,10 @@ class Home extends StatelessWidget {
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           );
                         }).toList(),
                       ),
@@ -179,95 +194,114 @@ class Home extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Text(
-            'الفئات',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppColor.TertiaryColor,
-            ),
-          ),
-          Container(
-            height: 120,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.categories.length,
-              itemBuilder: (context, i) {
-                return Container(
-                  padding: const EdgeInsets.only(top: 2, bottom: 10),
-                  margin: EdgeInsets.only(left: 20),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(() => Courses(
-                            categoryName: controller.categories[i]['title'],
-                          ));
-                    },
-                    child: Column(
-                      children: [
+          Obx(() => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: !controller.isOnChangedActive.value
+                    ? [
+                        const Text(
+                          'الفئات',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.TertiaryColor,
+                          ),
+                        ),
                         Container(
-                          decoration: BoxDecoration(
-                              color: AppColor.white,
-                              borderRadius: BorderRadius.circular(100)),
-                          padding: const EdgeInsets.all(10),
-                          child: Icon(
-                            controller.categories[i]['iconeName'],
-                            size: 40,
-                            color: AppColor.primaryColor,
+                          height: 120,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: controller.categories.length,
+                            itemBuilder: (context, i) {
+                              return Container(
+                                padding:
+                                    const EdgeInsets.only(top: 2, bottom: 10),
+                                margin: EdgeInsets.only(left: 20),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(() => Courses(
+                                          categoryName: controller.categories[i]
+                                              ['title'],
+                                        ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: AppColor.white,
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        padding: const EdgeInsets.all(10),
+                                        child: Icon(
+                                          controller.categories[i]['iconeName'],
+                                          size: 40,
+                                          color: AppColor.primaryColor,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          controller.categories[i]['title'],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text(
-                            controller.categories[i]['title'],
-                            style: Theme.of(context).textTheme.bodyMedium,
+                        const Text(
+                          'الدورات المنشورة حديثًا',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.TertiaryColor,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          const Text(
-            'الدورات المنشورة حديثًا',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppColor.TertiaryColor,
-            ),
-          ),
-          SizedBox(
-            height: 220,
-            child: FutureBuilder(
-              future: controller.getCourses(),
-              builder: (context, snapshot) {
-                // is it done loading? then show courses data
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: HomeController.courses.length,
-                      itemBuilder: (context, i) {
-                        return CourseCard(
-                          title: HomeController.courses[i].title,
-                          presenter: HomeController.courses[i].presenter,
-                          price: HomeController.courses[i].price,
-                          imageUrl: HomeController.courses[i].imageUrl,
-                          onPressed: (() => controller
-                              .registerInCourse(HomeController.courses[i].id!)),
-                          isCourseinUserRegisteredCourses:
-                              controller.isCourseinUserRegisteredCourses(
-                                  HomeController.courses[i].id!),
-                        );
-                      });
-                }
-                //if it is still loading, show loading circle
-                else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-          ),
+                      ]
+                    : [],
+              )),
+          Obx(() => SizedBox(
+                height: !controller.isOnChangedActive.value ? 220 : 420,
+                child: FutureBuilder(
+                  future: controller.getCourses(),
+                  builder: (context, snapshot) {
+                    // is it done loading? then show courses data
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return ListView.builder(
+                          scrollDirection: !controller.isOnChangedActive.value
+                              ? Axis.horizontal
+                              : Axis.vertical,
+                          itemCount: controller.found_courses.value.length,
+                          itemBuilder: (context, i) {
+                            return CourseCard(
+                              title: controller.found_courses.value[i].title,
+                              presenter:
+                                  controller.found_courses.value[i].presenter,
+                              price: controller.found_courses.value[i].price,
+                              imageUrl:
+                                  controller.found_courses.value[i].imageUrl,
+                              onPressed: (() async {
+                                await controller.registerInCourse(
+                                    controller.found_courses.value[i].id!);
+                                Get.offAll(() => Homepage());
+                              }),
+                              isCourseinUserRegisteredCourses:
+                                  controller.isCourseinUserRegisteredCourses(
+                                      controller.found_courses.value[i].id!),
+                            );
+                          });
+                    }
+                    //if it is still loading, show loading circle
+                    else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              )),
         ],
       ),
     );

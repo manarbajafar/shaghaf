@@ -16,8 +16,11 @@ class HomeController extends GetxController {
   var selectedValue_levels = 'الكل'.obs;
   var selectedValue_categories = 'الكل'.obs;
   var selectedValue_types = 'الكل'.obs;
+
   final _db = FirebaseFirestore.instance;
   static List<CourseModel> courses = [];
+  Rx<List<CourseModel>> found_courses = Rx<List<CourseModel>>([]);
+  RxBool isOnChangedActive = false.obs;
   static bool on_home = true;
 
   List categories = [
@@ -27,16 +30,66 @@ class HomeController extends GetxController {
     {'iconeName': Icons.language, 'title': 'اللغات'}
   ];
 
+  @override
+  void onInit() {
+    super.onInit();
+    found_courses.value = courses;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  void searchCoursebyTextField(String searchText) {
+    found_courses.value.clear();
+    List<CourseModel> results = [];
+    if (searchText.isEmpty) {
+      results = courses;
+    } else {
+      results = courses
+          .where((element) =>
+              element.title.toString().toLowerCase().contains(searchText) ||
+              element.presenter.toString().toLowerCase().contains(searchText))
+          .toList();
+    }
+    found_courses.value = results;
+  }
+
+//needs modification
+  void filterCourse() {
+    found_courses.value.clear();
+    List<CourseModel> results = [];
+    if (selectedValue_levels.value == 'الكل' &&
+        selectedValue_types.value == 'الكل' &&
+        selectedValue_categories.value == 'الكل') {
+      isOnChangedActive.value = false;
+      results = courses;
+    } else {
+      isOnChangedActive.value = true;
+      results = courses
+          .where((element) =>
+              element.category == selectedValue_categories.value ||
+              element.level == selectedValue_levels.value ||
+              element.place.toString().contains(selectedValue_types.value))
+          .toList();
+    }
+    found_courses.value = results;
+  }
+
   void updateSelectedValue_levels(String value) {
     selectedValue_levels.value = value;
+    filterCourse();
   }
 
   void updateSelectedValue_categories(String value) {
     selectedValue_categories.value = value;
+    filterCourse();
   }
 
   void updateSelectedValue_types(String value) {
     selectedValue_types.value = value;
+    filterCourse();
   }
 
 //get courses from API
@@ -84,15 +137,13 @@ class HomeController extends GetxController {
   }
 
   bool isCourseinUserRegisteredCourses(int courseId) {
-    print(
-        'ProfileController.registeredCourses: ${ProfileController.registeredCourses}');
     for (var registeredCourse in ProfileController.registeredCourses) {
       if (courseId == registeredCourse.id) {
-        update();
+        update(); //
         return true;
       }
     }
-    update();
+    update(); //
     return false;
   }
 }
