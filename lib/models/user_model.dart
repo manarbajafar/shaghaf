@@ -30,7 +30,8 @@ class UserModel {
       uid: document.id,
       name: data['name'],
       email: data['email'],
-      registered_courses: (data['registered_courses'] as List).cast<Map>(),
+      registered_courses:
+          (data['registered_courses'] ?? [] as List).cast<Map>(),
     );
   }
 }

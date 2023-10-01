@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shaghaf_app/controllers/home_controller.dart';
-
 import '../models/course_model.dart';
 import '../models/user_model.dart';
 import 'auth_controller.dart';
@@ -15,14 +14,23 @@ class ProfileController extends GetxController {
   final _auth_controller = Get.put(AuthController());
   final _user_controller = Get.put(UserController());
   final _db = FirebaseFirestore.instance;
-  String? userName = 'username';
   List<Map> registeredcoursesIDsandStauts = [];
   static List<CourseModel> registeredCourses = [];
-  // final registeredCourses = <CourseModel>[].obs;
+
+  var isLoadingData = false.obs;
+  var userName = 'userName';
+
   @override
-  void onReady() {
+  Future<void> onInit() async {
+    userName = await getUserName();
+    update();
+    super.onInit();
+  }
+
+  @override
+  void onReady() async {
+    await getRegisterdCourses();
     super.onReady();
-    userName = _auth_controller.firebaseUser.value?.displayName;
   }
 
   //fetch user information from database
@@ -36,8 +44,9 @@ class ProfileController extends GetxController {
   }
 
   //update user information
-  updateUserData(UserModel user) async {
-    await _user_controller.updateUserRecord(user);
+  updateUserName(String name) async {
+    await _user_controller.updateUserName(name);
+    getUserName();
   }
 
   //update user password
@@ -51,6 +60,9 @@ class ProfileController extends GetxController {
   }
 
 /////// profile page
+  logout() {
+    _auth_controller.logout();
+  }
 
 //get user registerd courses
 // the plan :
@@ -72,10 +84,12 @@ class ProfileController extends GetxController {
     return registeredCourses;
   }
 
-  updateUserName() {
-    userName = _auth_controller.firebaseUser.value
-        ?.displayName; //I have to change the name field in db to displayName
+  getUserName() async {
+    UserModel userData = await getUserData();
+    print('userData.name  ${userData.name}');
+    userName = userData.name;
     update();
+    return userName;
   }
 
 /*
@@ -84,23 +98,21 @@ the plan :
 2- updated the screen to 'مكتمل' and the button disappears
 */
   completePayment(int courseId) async {
-    //1.1 get index of regidter course from db
+    //1.1 read the document
     UserModel userData = await getUserData();
+    //1.2 get the array of registered courses
     registeredcoursesIDsandStauts = userData.registered_courses!;
+    //1.3 get index of the element to be modified and modify it
     int index = registeredcoursesIDsandStauts
         .indexWhere((i) => i['courseId'] == courseId);
-    //1.2 update specific array
+    registeredcoursesIDsandStauts[index]['status'] = true;
+    //1.4 update that field in db
     await _db
         .collection('users')
         .doc(_auth_controller.firebaseUser.value!.uid)
-        .update({
-      "registered_courses"[index]: FieldValue.arrayUnion([
-        {
-          'courseId': courseId,
-          'status': true,
-        }
-      ])
-    });
-    getRegisterdCourses(); // 2 but it doesn't work yet
+        .update({'registered_courses': registeredcoursesIDsandStauts});
+
+    // 2 update listview
+    update();
   }
 }

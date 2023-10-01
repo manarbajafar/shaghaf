@@ -40,7 +40,6 @@ class EditProfile extends StatelessWidget {
 
                   //controllers to update values
                   final email = TextEditingController(text: userData.email);
-
                   final name = TextEditingController(text: userData.name);
 
                   return Column(
@@ -138,7 +137,7 @@ class EditProfile extends StatelessWidget {
                             email: email.text.trim(),
                             name: name.text.trim(),
                           );
-                          await controller.updateUserData(user);
+                          await controller.updateUserName(user.name);
                           Get.to(() => Homepage());
                         },
                         buttonColor: AppColor.primaryColor,
@@ -154,7 +153,6 @@ class EditProfile extends StatelessWidget {
                 } else {
                   //to sovle this ERROR: The body might complete normally, causing 'null' to be returned, but the return type, 'Widget', is a potentially non-nullable type. Try adding either a return or a throw statement at the end.dartbody_might_complete_normally
                   return Text(snapshot.toString());
-                  print('line 133 ${snapshot.error.toString()}');
                 }
               } else {
                 return Container(

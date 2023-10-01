@@ -4,20 +4,13 @@ import 'package:get/get.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
 
 import '../controllers/profile_controller.dart';
+import '../models/user_model.dart';
 import '../widgets/userCourses_card.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatelessWidget {
   late String pageTitle;
   final controller = Get.put(ProfileController());
-
-  // This section is temporary until I finish the design and move to backend :)
-  String userName = 'Manar Bajafar';
-
-  logout() {
-    FirebaseAuth.instance.signOut();
-  }
-  //
 
   Profile({super.key, required this.pageTitle});
 
@@ -54,7 +47,7 @@ class Profile extends StatelessWidget {
                           onPressed: () => Get.back(), child: const Text("لا")),
                       confirm: Expanded(
                         child: ElevatedButton(
-                          onPressed: () => logout(), // from auth
+                          onPressed: () => controller.logout(),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.ErrorColor,
                               side: BorderSide.none),
@@ -81,10 +74,14 @@ class Profile extends StatelessWidget {
                       size: 150,
                     ),
                   ),
-                  Text(
-                    userName,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                  GetBuilder<ProfileController>(
+                      init: ProfileController(),
+                      builder: (value) {
+                        return Text(
+                          '${value.userName}',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        );
+                      }),
                   InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -225,41 +222,46 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FutureBuilder(
-                      future: controller.getRegisterdCourses(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            return SizedBox(
+                  Obx(() {
+                    if (!controller.isLoadingData.value) {
+                      int registeredCoursesLength =
+                          ProfileController.registeredCourses.length;
+                      return registeredCoursesLength > 0
+                          ? SizedBox(
                               height: 200,
-                              child: ListView.builder(
-                                  itemCount: ProfileController
-                                      .registeredCourses.length,
-                                  itemBuilder: (context, i) {
-                                    return UserCoursesCard(
-                                      coursePrice: ProfileController
-                                          .registeredCourses[i].price!,
-                                      status: controller
-                                              .registeredcoursesIDsandStauts[i]
-                                          ['status'],
-                                      courseTitle: ProfileController
-                                          .registeredCourses[i].title!,
-                                      courseImage: ProfileController
-                                          .registeredCourses[i].imageUrl!,
-                                      completePaymentOnPressed: (() =>
-                                          controller.completePayment(
-                                              ProfileController
-                                                  .registeredCourses[i].id!)),
-                                    );
-                                  }),
+                              child: GetBuilder<ProfileController>(
+                                  builder: (context) => ListView.builder(
+                                      itemCount: registeredCoursesLength,
+                                      itemBuilder: (context, i) {
+                                        return UserCoursesCard(
+                                          coursePrice: ProfileController
+                                              .registeredCourses[i].price!,
+                                          status: controller
+                                                  .registeredcoursesIDsandStauts[
+                                              i]['status'],
+                                          courseTitle: ProfileController
+                                              .registeredCourses[i].title!,
+                                          courseImage: ProfileController
+                                              .registeredCourses[i].imageUrl!,
+                                          completePaymentOnPressed: () async {
+                                            await controller.completePayment(
+                                                ProfileController
+                                                    .registeredCourses[i].id!);
+                                          },
+                                        );
+                                      })),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(
+                                "لا توجد دورات مسجلة",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             );
-                          } else {
-                            return Text(snapshot.error.toString());
-                          }
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      }),
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }),
                 ],
               ),
             ),

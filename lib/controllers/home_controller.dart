@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shaghaf_app/models/course_model.dart';
-
 import 'auth_controller.dart';
 import 'profile_controller.dart';
 
@@ -30,10 +28,17 @@ class HomeController extends GetxController {
     {'iconeName': Icons.language, 'title': 'اللغات'}
   ];
 
+  var isLoadingData = false.obs;
+
   @override
   void onInit() {
     super.onInit();
-    found_courses.value = courses;
+  }
+
+  @override
+  void onReady() async {
+    await getCourses();
+    super.onReady();
   }
 
   @override
@@ -53,28 +58,58 @@ class HomeController extends GetxController {
               element.presenter.toString().toLowerCase().contains(searchText))
           .toList();
     }
-    found_courses.value = results;
+
+    found_courses.value = [];
+    found_courses.value.addAll(results);
   }
 
-//needs modification
   void filterCourse() {
-    found_courses.value.clear();
     List<CourseModel> results = [];
     if (selectedValue_levels.value == 'الكل' &&
         selectedValue_types.value == 'الكل' &&
         selectedValue_categories.value == 'الكل') {
       isOnChangedActive.value = false;
-      results = courses;
-    } else {
+      results.clear();
+      found_courses.value.clear();
+      results.addAll(courses);
+    }
+
+    if (selectedValue_levels.value == 'الكل' ||
+        selectedValue_types.value == 'الكل' ||
+        selectedValue_categories.value == 'الكل') {
       isOnChangedActive.value = true;
+      results.clear();
+      found_courses.value.clear();
+      results.addAll(courses);
+      if (selectedValue_types.value != 'الكل') {
+        results.removeWhere((element) =>
+            !element.place.toString().contains(selectedValue_types.value));
+      }
+      if (selectedValue_categories.value != 'الكل') {
+        results.removeWhere(
+            (element) => element.category != selectedValue_categories.value);
+      }
+      if (selectedValue_levels.value != 'الكل') {
+        results.removeWhere(
+            (element) => element.level != selectedValue_levels.value);
+      }
+    }
+
+    if (selectedValue_levels.value != 'الكل' &&
+        selectedValue_types.value != 'الكل' &&
+        selectedValue_categories.value != 'الكل') {
+      isOnChangedActive.value = true;
+      results.clear();
+      found_courses.value.clear();
       results = courses
           .where((element) =>
-              element.category == selectedValue_categories.value ||
-              element.level == selectedValue_levels.value ||
+              element.category == selectedValue_categories.value &&
+              element.level == selectedValue_levels.value &&
               element.place.toString().contains(selectedValue_types.value))
           .toList();
     }
-    found_courses.value = results;
+    found_courses.value = [];
+    found_courses.value.addAll(results);
   }
 
   void updateSelectedValue_levels(String value) {
@@ -95,6 +130,7 @@ class HomeController extends GetxController {
 //get courses from API
   Future getCourses() async {
     if (on_home) {
+      isLoadingData.value = true;
       courses
           .clear(); //So that the elements are not repeated whenever we return to the homepage
       var url = Uri.parse(
@@ -117,8 +153,9 @@ class HomeController extends GetxController {
         courses.add(course);
       }
       await _profile_controller.getRegisterdCourses();
-      print('courses.length: ${courses.length}');
       update();
+      found_courses.value.addAll(courses);
+      isLoadingData.value = false;
     }
   }
 

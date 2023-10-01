@@ -25,7 +25,7 @@ class UserController extends GetxController {
   }
 
   /// - update user data (This method only succeeded in updating the name)
-  Future<void> updateUserRecord(UserModel user) async {
+  Future<void> updateUserName(String name) async {
     // Prompt the user to enter their email and password
     //reference: https://firebase.flutter.dev/docs/auth/usage/
     //other reference: https://stackoverflow.com/questions/73113046/flutter-firebase-auth-how-to-get-user-current-password
@@ -43,7 +43,10 @@ class UserController extends GetxController {
     //     .reauthenticateWithCredential(credential)
     //     .then((value) async =>
     //         {
-    await _db.collection('users').doc(user.uid).update(user.toJson());
+    await _db
+        .collection('users')
+        .doc(_auth_controller.firebaseUser.value!.uid)
+        .update({'name': name});
     //           })
     //     .catchError((error) {
     //   print(error.toString());

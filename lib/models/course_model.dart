@@ -30,4 +30,9 @@ class CourseModel {
         presenter: json['presenter'],
         price: json['price']);
   }
+
+  @override
+  String toString() {
+    return '{id: ${id}';
+  }
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/homepage_controller.dart';
 
 class Homepage extends StatelessWidget {
+  
   Homepage({
     super.key,
   });
@@ -12,6 +13,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(HomePageController());
+    
     return GetBuilder<HomePageController>(
         builder: (controller) => Scaffold(
               bottomNavigationBar: ClipRRect(
@@ -46,3 +48,4 @@ class Homepage extends StatelessWidget {
             ));
   }
 }
+//controller.currentPage = 2;

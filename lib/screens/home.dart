@@ -12,8 +12,6 @@ class Home extends StatelessWidget {
 
   Home({super.key, required this.pageTitle});
 
-//---------------------------------------------------------
-// This section is temporary until I finish the design and move to - filters -backend :)
   List<String> levels = ['الكل', 'مبتدئ', 'متوسط', 'متقدم'];
 
   List<String> categories = [
@@ -24,9 +22,7 @@ class Home extends StatelessWidget {
     'الحاسب الآلي'
   ];
 
-  List<String> types = ['الكل', 'عن بعد', 'حضوري'];
-
-//---------------------------------------------------------
+  List<String> types = ['الكل', 'عن بعد', 'مكة', 'جدة'];
 
   final HomeController controller = Get.put(HomeController());
 
@@ -44,153 +40,136 @@ class Home extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  hintText: "بحث",
-                  hasIcon: true,
-                  ispasswordType: false,
-                  onChanged: (value) {
-                    //value == null || value.length == 0
-                    if (value.isEmpty)
-                      controller.isOnChangedActive.value = false;
-                    else
-                      controller.isOnChangedActive.value = true;
-                    controller.searchCoursebyTextField(value);
-                  },
-                  validator: (value) {
-                    if (value == null) {
-                      print("the field is empty");
-                    }
-                  },
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: Icon(
-                  Icons.cancel,
-                  size: 35,
-                  color: AppColor.grey,
-                ),
-              ),
-            ],
+          CustomTextFormField(
+            hintText: "بحث",
+            hasIcon: true,
+            ispasswordType: false,
+            onChanged: (value) {
+              if (value.isEmpty)
+                controller.isOnChangedActive.value = false;
+              else
+                controller.isOnChangedActive.value = true;
+              controller.searchCoursebyTextField(value);
+            },
+            validator: (value) {
+              if (value == null) {
+                print("the field is empty");
+              }
+            },
           ),
           const SizedBox(
             height: 15,
           ),
-          Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 90,
-                  height: 75,
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('نوع الدورات'),
-                      DropdownButton<String>(
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        value: controller.selectedValue_types.value == ""
-                            ? null
-                            : controller.selectedValue_types.value,
-                        onChanged: (newValue) {
-                          controller
-                              .updateSelectedValue_types(newValue.toString());
-                        },
-                        items:
-                            types.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
+          Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 5),
+                    width: 100,
+                    height: 80,
+                    decoration: BoxDecoration(
+                        color: AppColor.white,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('المكان'),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          value: controller.selectedValue_types.value == ""
+                              ? null
+                              : controller.selectedValue_types.value,
+                          onChanged: (newValue) {
+                            controller
+                                .updateSelectedValue_types(newValue.toString());
+                          },
+                          items: types
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 90,
-                  height: 67,
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('المستوى'),
-                      DropdownButton<String>(
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        value: controller.selectedValue_levels.value == ""
-                            ? null
-                            : controller.selectedValue_levels.value,
-                        onChanged: (newValue) {
-                          controller
-                              .updateSelectedValue_levels(newValue.toString());
-                        },
-                        items: levels
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 5),
+                    width: 100,
+                    height: 80,
+                    decoration: BoxDecoration(
+                        color: AppColor.white,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('المستوى'),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          value: controller.selectedValue_levels.value == ""
+                              ? null
+                              : controller.selectedValue_levels.value,
+                          onChanged: (newValue) {
+                            controller.updateSelectedValue_levels(
+                                newValue.toString());
+                          },
+                          items: levels
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: 90,
-                  height: 75,
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('الفئات'),
-                      DropdownButton<String>(
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        value: controller.selectedValue_categories.value == ""
-                            ? null
-                            : controller.selectedValue_categories.value,
-                        onChanged: (newValue) {
-                          controller.updateSelectedValue_categories(
-                              newValue.toString());
-                        },
-                        items: categories
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 5),
+                    width: 100,
+                    height: 80,
+                    decoration: BoxDecoration(
+                        color: AppColor.white,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('الفئات'),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          value: controller.selectedValue_categories.value == ""
+                              ? null
+                              : controller.selectedValue_categories.value,
+                          onChanged: (newValue) {
+                            controller.updateSelectedValue_categories(
+                                newValue.toString());
+                          },
+                          items: categories
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                ],
+              )),
           const SizedBox(
             height: 20,
           ),
@@ -264,18 +243,18 @@ class Home extends StatelessWidget {
                       ]
                     : [],
               )),
-          Obx(() => SizedBox(
-                height: !controller.isOnChangedActive.value ? 220 : 420,
-                child: FutureBuilder(
-                  future: controller.getCourses(),
-                  builder: (context, snapshot) {
-                    // is it done loading? then show courses data
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return ListView.builder(
+          Obx(() {
+            if (!controller.isLoadingData.value) {
+              int listLength = controller.found_courses.value.length;
+              print("listLength: ${listLength}");
+              return listLength > 0
+                  ? SizedBox(
+                      height: !controller.isOnChangedActive.value ? 220 : 420,
+                      child: ListView.builder(
                           scrollDirection: !controller.isOnChangedActive.value
                               ? Axis.horizontal
                               : Axis.vertical,
-                          itemCount: controller.found_courses.value.length,
+                          itemCount: listLength,
                           itemBuilder: (context, i) {
                             return CourseCard(
                               title: controller.found_courses.value[i].title,
@@ -293,15 +272,23 @@ class Home extends StatelessWidget {
                                   controller.isCourseinUserRegisteredCourses(
                                       controller.found_courses.value[i].id!),
                             );
-                          });
-                    }
-                    //if it is still loading, show loading circle
-                    else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
-              )),
+                          }),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Center(
+                        child: Text(
+                          "لا توجد نتائج",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    );
+            }
+            //if it is still loading, show loading circle
+            else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
         ],
       ),
     );

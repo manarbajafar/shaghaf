@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
-
-import '../controllers/profile_controller.dart';
-import 'custom_button.dart';
 
 class UserCoursesCard extends StatelessWidget {
   String courseTitle;
@@ -87,49 +83,45 @@ class UserCoursesCard extends StatelessWidget {
               ]),
             ],
           ),
-          GetBuilder<ProfileController>(
-              builder: (context) => Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: !isFavoritepage
-                        ? !status
-                            ? Column(
-                                children: [
-                                  Text(
-                                    'غير مكتمل',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: AppColor.ErrorColor),
-                                  ),
-                                  Container(
-                                    height: 22,
-                                    child: MaterialButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16)),
-                                      onPressed: completePaymentOnPressed,
-                                      color: AppColor.primaryColor,
-                                      child: const Text(
-                                        'إتمام الدفع',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : const Text(
-                                'مكتمل',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.green),
-                              )
-                        : Icon(
-                            favoriteIcon,
-                            color: AppColor.TertiaryColor,
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: !isFavoritepage
+                ? !status
+                    ? Column(
+                        children: [
+                          const Text(
+                            'غير مكتمل',
+                            style: TextStyle(
+                                fontSize: 15, color: AppColor.ErrorColor),
                           ),
-                  )),
+                          Container(
+                            height: 22,
+                            child: MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              onPressed: completePaymentOnPressed,
+                              color: AppColor.primaryColor,
+                              child: const Text(
+                                'إتمام الدفع',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : const Text(
+                        'مكتمل',
+                        style: TextStyle(fontSize: 15, color: Colors.green),
+                      )
+                : Icon(
+                    favoriteIcon,
+                    color: AppColor.TertiaryColor,
+                  ),
+          ),
         ],
       ),
     );
