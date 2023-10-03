@@ -36,11 +36,12 @@ class Courses extends StatelessWidget {
                           presenter: HomeController.courses[i].presenter,
                           price: HomeController.courses[i].price,
                           imageUrl: HomeController.courses[i].imageUrl,
-                          onPressed: (() => controller
+                          registerOnPressed: (() => controller
                               .registerInCourse(HomeController.courses[i].id!)),
-                          isCourseinUserRegisteredCourses:
+                          isRegistered:
                               controller.isCourseinUserRegisteredCourses(
                                   HomeController.courses[i].id!),
+                          isFavorite: 0, //temp
                         )
                       : Container()),
         ));

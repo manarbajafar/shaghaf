@@ -10,19 +10,18 @@ class CourseModel {
   // String? date;
   String? category;
   String? imageUrl;
-  bool? status;
 
-  CourseModel(
-      {this.id,
-      this.title,
-      this.presenter,
-      this.place,
-      this.price,
-      this.level,
-      // this.date,
-      this.category,
-      this.imageUrl,
-      this.status});
+  CourseModel({
+    this.id,
+    this.title,
+    this.presenter,
+    this.place,
+    this.price,
+    this.level,
+    // this.date,
+    this.category,
+    this.imageUrl,
+  });
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
     return CourseModel(

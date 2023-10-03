@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shaghaf_app/constatnt/app_colors.dart';
+
+import '../screens/homepage.dart';
 
 class UserCoursesCard extends StatelessWidget {
   String courseTitle;
@@ -10,6 +13,8 @@ class UserCoursesCard extends StatelessWidget {
   bool isFavoritepage;
   IconData favoriteIcon;
   Future Function()? completePaymentOnPressed;
+  Function? favoriteOnPressed;
+  int isFavorite;
 
   UserCoursesCard(
       {super.key,
@@ -19,6 +24,8 @@ class UserCoursesCard extends StatelessWidget {
       this.status = false,
       this.coursePresenter = '',
       this.isFavoritepage = false,
+      this.favoriteOnPressed,
+      this.isFavorite = 1,
       this.favoriteIcon = Icons.favorite,
       this.completePaymentOnPressed});
 
@@ -117,9 +124,13 @@ class UserCoursesCard extends StatelessWidget {
                         'مكتمل',
                         style: TextStyle(fontSize: 15, color: Colors.green),
                       )
-                : Icon(
-                    favoriteIcon,
-                    color: AppColor.TertiaryColor,
+                : IconButton(
+                    icon: Icon(favoriteIcon),
+                    iconSize: 25,
+                    color: AppColor.primaryColor,
+                    onPressed: () {
+                      favoriteOnPressed!();
+                    },
                   ),
           ),
         ],

@@ -62,7 +62,7 @@ class AuthController extends GetxController {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        final User? currentUser = FirebaseAuth.instance.currentUser;
+        final User? currentUser = _auth.currentUser;
         // store data in in user collection
         await FirebaseFirestore.instance
             .collection("users")

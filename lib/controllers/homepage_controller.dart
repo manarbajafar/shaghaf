@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import '../screens/favorite.dart';
 import '../screens/home.dart';
 import '../screens/profile.dart';
+import 'favorite_controller.dart';
 import 'home_controller.dart';
+import 'profile_controller.dart';
 
 class HomePageController extends GetxController {
   List<Widget> listPage = [

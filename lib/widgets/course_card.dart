@@ -7,8 +7,10 @@ class CourseCard extends StatelessWidget {
   String? presenter;
   int? price;
   String? imageUrl;
-  Future Function()? onPressed;
-  bool isCourseinUserRegisteredCourses = false;
+  Future Function()? registerOnPressed;
+  bool isRegistered = false;
+  Function? favoriteOnPressed;
+  int isFavorite;
 
   CourseCard(
       {super.key,
@@ -17,8 +19,10 @@ class CourseCard extends StatelessWidget {
       this.presenter,
       this.price,
       this.imageUrl,
-      this.onPressed,
-      required this.isCourseinUserRegisteredCourses});
+      this.registerOnPressed,
+      this.isFavorite = 0,
+      this.favoriteOnPressed,
+      required this.isRegistered});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +34,46 @@ class CourseCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(
-            height: 100,
-            width: MediaQuery.of(context).size.width - 80,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(16),
-                topLeft: Radius.circular(16),
+          Stack(
+            children: [
+              SizedBox(
+                height: 100,
+                width: MediaQuery.of(context).size.width - 80,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(16),
+                  ),
+                  child: Image.network(imageUrl!, fit: BoxFit.fill),
+                ),
               ),
-              child: Image.network(imageUrl!, fit: BoxFit.fill),
-            ),
+              isFavorite == 0
+                  ? Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: IconButton(
+                        icon: Icon(Icons.favorite_border),
+                        color: AppColor.secondaryColor,
+                        onPressed: () {
+                          isFavorite++;
+                          favoriteOnPressed!();
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: Icon(Icons.favorite),
+                          color: AppColor.secondaryColor,
+                          onPressed: () {
+                            isFavorite--;
+                            favoriteOnPressed!();
+                          },
+                        ),
+                      ),
+                    ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
@@ -90,12 +124,12 @@ class CourseCard extends StatelessWidget {
               ),
               Container(
                 height: 30,
-                child: !isCourseinUserRegisteredCourses
+                child: !isRegistered
                     ? MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        onPressed: onPressed,
+                        onPressed: registerOnPressed,
                         color: AppColor.primaryColor,
                         child: const Text(
                           'سجل الآن',

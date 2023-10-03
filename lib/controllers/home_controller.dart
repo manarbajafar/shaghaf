@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shaghaf_app/models/course_model.dart';
 import 'auth_controller.dart';
+import 'favorite_controller.dart';
 import 'profile_controller.dart';
 
 class HomeController extends GetxController {
   final _auth_controller = Get.put(AuthController());
   final _profile_controller = Get.put(ProfileController());
+  final _favorite_controller = Get.put(FavoriteController());
 
   var selectedValue_levels = 'الكل'.obs;
   var selectedValue_categories = 'الكل'.obs;
@@ -153,6 +155,7 @@ class HomeController extends GetxController {
         courses.add(course);
       }
       await _profile_controller.getRegisterdCourses();
+      await _favorite_controller.getFavoriteCourses();
       update();
       found_courses.value.addAll(courses);
       isLoadingData.value = false;

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shaghaf_app/screens/courses.dart';
 import 'package:shaghaf_app/widgets/course_card.dart';
 import '../constatnt/app_colors.dart';
+import '../controllers/favorite_controller.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/custom_textForm.dart';
 import 'homepage.dart';
@@ -25,6 +26,7 @@ class Home extends StatelessWidget {
   List<String> types = ['الكل', 'عن بعد', 'مكة', 'جدة'];
 
   final HomeController controller = Get.put(HomeController());
+  final favorite_controller = Get.put(FavoriteController());
 
   @override
   Widget build(BuildContext context) {
@@ -250,29 +252,58 @@ class Home extends StatelessWidget {
               return listLength > 0
                   ? SizedBox(
                       height: !controller.isOnChangedActive.value ? 220 : 420,
-                      child: ListView.builder(
-                          scrollDirection: !controller.isOnChangedActive.value
-                              ? Axis.horizontal
-                              : Axis.vertical,
-                          itemCount: listLength,
-                          itemBuilder: (context, i) {
-                            return CourseCard(
-                              title: controller.found_courses.value[i].title,
-                              presenter:
-                                  controller.found_courses.value[i].presenter,
-                              price: controller.found_courses.value[i].price,
-                              imageUrl:
-                                  controller.found_courses.value[i].imageUrl,
-                              onPressed: (() async {
-                                await controller.registerInCourse(
-                                    controller.found_courses.value[i].id!);
-                                Get.offAll(() => Homepage());
-                              }),
-                              isCourseinUserRegisteredCourses:
-                                  controller.isCourseinUserRegisteredCourses(
-                                      controller.found_courses.value[i].id!),
-                            );
-                          }),
+                      child: GetBuilder<FavoriteController>(
+                          builder: (context) => ListView.builder(
+                              scrollDirection:
+                                  !controller.isOnChangedActive.value
+                                      ? Axis.horizontal
+                                      : Axis.vertical,
+                              itemCount: listLength,
+                              itemBuilder: (context, i) {
+                                return CourseCard(
+                                  title:
+                                      controller.found_courses.value[i].title,
+                                  presenter: controller
+                                      .found_courses.value[i].presenter,
+                                  price:
+                                      controller.found_courses.value[i].price,
+                                  imageUrl: controller
+                                      .found_courses.value[i].imageUrl,
+                                  registerOnPressed: (() async {
+                                    await controller.registerInCourse(
+                                        controller.found_courses.value[i].id!);
+                                    Get.offAll(() => Homepage());
+                                  }),
+                                  ///////////////////
+                                  isFavorite: favorite_controller
+                                      .isCourseinUserFavoriteCourses(controller
+                                          .found_courses.value[i].id!),
+                                  favoriteOnPressed: (() async {
+                                    favorite_controller
+                                                .isCourseinUserFavoriteCourses(
+                                                    controller.found_courses
+                                                        .value[i].id!) ==
+                                            0
+                                        ? {
+                                            await favorite_controller
+                                                .addToFavorites(controller
+                                                    .found_courses.value[i].id!)
+                                          }
+                                        : {
+                                            await favorite_controller
+                                                .removeFromFavorites(controller
+                                                    .found_courses.value[i].id!)
+                                          };
+
+                                    Get.offAll(() => Homepage());
+                                  }),
+                                  ///////////////////
+                                  isRegistered: controller
+                                      .isCourseinUserRegisteredCourses(
+                                          controller
+                                              .found_courses.value[i].id!),
+                                );
+                              })),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(20),
