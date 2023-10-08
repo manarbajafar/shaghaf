@@ -48,7 +48,6 @@ class FavoriteController extends GetxController {
         if (course.id == item) favoriteCourses.add(course);
       }
     }
-    update();
     return favoriteCourses;
   }
 
@@ -62,6 +61,11 @@ class FavoriteController extends GetxController {
         courseId,
       ])
     }, SetOptions(merge: true));
+
+    for (var course in HomeController.courses) {
+      if (course.id == courseId) favoriteCourses.add(course);
+    }
+
     update();
   }
 
@@ -80,8 +84,6 @@ class FavoriteController extends GetxController {
     favoriteCourses.removeWhere((item) => item.id == courseId);
 
     print('favoriteCourses: ${favoriteCourses}');
-    Get.to(() => Homepage());
-
     update();
   }
 

@@ -27,11 +27,11 @@ class ProfileController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() async {
-    await getRegisterdCourses();
-    super.onReady();
-  }
+  // @override
+  // void onReady() async {
+  //   await getRegisterdCourses();
+  //   super.onReady();
+  // }
 
   //fetch user information from database
   getUserData() {

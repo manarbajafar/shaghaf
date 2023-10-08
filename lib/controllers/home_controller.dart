@@ -174,6 +174,11 @@ class HomeController extends GetxController {
         }
       ])
     }, SetOptions(merge: true));
+    // store course in list
+    for (var course in HomeController.courses) {
+      if (course.id == courseId)
+        ProfileController.registeredCourses.add(course);
+    }
   }
 
   bool isCourseinUserRegisteredCourses(int courseId) {

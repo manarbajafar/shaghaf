@@ -294,8 +294,6 @@ class Home extends StatelessWidget {
                                                 .removeFromFavorites(controller
                                                     .found_courses.value[i].id!)
                                           };
-
-                                    Get.offAll(() => Homepage());
                                   }),
                                   ///////////////////
                                   isRegistered: controller
