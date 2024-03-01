@@ -12,4 +12,4 @@ The user can register for them, add and delete them from favorites, search for a
 ![Shaghaf App Interfaces](shaghaf_screens.png)
 
 ## DEMO
-https://youtu.be/LXMtK-9e_hA
+[![Shaghaf App Demo](https://share.gifyoutube.com/KzB6Gb.gif)](https://youtu.be/LXMtK-9e_hA)
