@@ -9,7 +9,7 @@ The user can register for them, add and delete them from favorites, search for a
 4. develop the application using Flutter
 
 ## Interfaces
-![Shaghaf App Interfaces.](https://ibb.co/VQFR7B3)
+![Shaghaf App Interfaces](shaghaf_screens.png)
 
 ## DEMO
-[Shaghaf App DEMO](https://youtu.be/LXMtK-9e_hA)https://youtu.be/LXMtK-9e_hA).
+https://youtu.be/LXMtK-9e_hA
