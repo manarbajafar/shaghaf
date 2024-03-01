@@ -1,16 +1,15 @@
 # shaghaf_app
+it is a simple application for training purpose....
+the idea is support people who are looking for their own hobbies and passions. it display training courses from the API. 
+The user can register for them, add and delete them from favorites, search for a specific course, or through filters by choosing the course level, location, and category.
 
-A new Flutter project.
+1. Firebase authentication and firestore were used for databases and getX for state management.
+2. draw workflow diagram for the application.
+3. designing application interfaces using Figma.
+4. develop the application using Flutter
 
-## Getting Started
+## Interfaces
+![Shaghaf App Interfaces.]([https://myoctocat.com/assets/images/base-octocat.svg](https://ibb.co/VQFR7B3))
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## DEMO
+[Shaghaf App DEMO]([https://pages.github.com/](https://youtu.be/LXMtK-9e_hA)https://youtu.be/LXMtK-9e_hA).
